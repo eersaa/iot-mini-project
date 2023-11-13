@@ -1,12 +1,4 @@
-def test_should_return_one_temperature_measurement_when_sent_one_measurement():
-    temperature_sensor = Sensor("temperature")
-    iot_node = IotNode.add(temperature_sensor)
-    public_api_service = PublicAPI().create()
-    public_api_service.start()
-    dashboard = Dashboard().create()
-
-    iot_node.temperature_sensor.take_measurement()
-    iot_node.send_message(public_api_service.address)
-
-    dashboard.show("temperatures")
-    assert len(dashboard.export("temperatures").list()) == 1
+# This same test could work against both CoAP API and database.
+def test_iot_node_should_successfully_update_measurement_to_datacollector()
+    iot_node.send_update({"temperature": 25, "destination": "datacollector"})
+    datacollector.confirm_update({"temperature": 25})
