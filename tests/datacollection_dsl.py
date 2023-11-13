@@ -5,8 +5,9 @@ class DatacollectionDsl(ApiDatacollectionProtocolDriver):
         self.driver = protocol_driver
     
     def send_updated_measurement(self, **parameters):
-        temperature = parameters["temperature"]
+        measurement_type = parameters["type"]
+        measurement_value = parameters["value"]
         destination = parameters["destination"]
     
-        self.driver.send_updated_measurement(temperature, destination)
+        self.driver.send_updated_measurement(measurement_type, measurement_value, destination)
     
