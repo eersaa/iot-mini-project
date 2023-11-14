@@ -1,5 +1,8 @@
 
-class ApiDatacollectionProtocolDriver:
+class CoapApiProtocolDriver:
 
-    def send_updated_measurement(self, type, value, destination):
-        transport.send(message.create(type, value), destinations.find(destination))
+    def show_measurement_sample(self, measurement_type):
+        pass
+    
+    def send_measurement_sample(self, measurement_type, measurement_value):
+        pass
