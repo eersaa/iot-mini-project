@@ -1,6 +1,7 @@
 FROM python:3.12 AS development
 
-RUN pip install -U pytest
+RUN pip install -U pytest \
+                    aiocoap[all]
 
 ARG USERNAME=developer
 ARG USER_UID=1000
