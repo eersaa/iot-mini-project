@@ -1,10 +1,12 @@
 import unittest
 import iot_system_dsl
+import coap_api_protocol_driver
 
 class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
     def setUp(self) -> None:
-        self.iot_node = iot_system_dsl.IoTNode()
-        self.iot_system = iot_system_dsl.IoTSystem(self.iot_node)
+        self.protocol_driver = coap_api_protocol_driver.CoapApiProtocolDriver()
+        self.iot_node = iot_system_dsl.IotNodeDsl(self.protocol_driver)
+        self.iot_system = iot_system_dsl.IotSystemDsl(self.protocol_driver, self.iot_node)
 
     def test_should_successfully_show_one_sample_to_user_sent_from_iot_node(self):
         self.iot_system.iot_node.send_measurement_sample(type="temperature", value="25.0")
@@ -14,4 +16,5 @@ class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
         self.assertEqual(sample == value)
 
 if __name__ == '__main__':
-    unittest.main()
+    acceptance_tests = unittest.TestLoader().discover('tests', pattern='acceptance_test*')
+    unittest.TextTestRunner(verbosity=2).run(acceptance_tests)
