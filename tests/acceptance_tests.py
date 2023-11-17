@@ -16,5 +16,5 @@ class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
         self.assertEqual(sample, value)
 
 if __name__ == '__main__':
-    acceptance_tests = unittest.TestLoader().discover('tests', pattern='acceptance_tests*')
+    acceptance_tests = unittest.TestLoader().discover('.', pattern='acceptance_tests*')
     unittest.TextTestRunner(verbosity=2).run(acceptance_tests)
