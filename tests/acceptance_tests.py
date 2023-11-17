@@ -3,7 +3,7 @@ import iot_system_dsl
 import coap_api_protocol_driver
 
 class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
-    def setUp(self) -> None:
+    def setUp(self):
         self.protocol_driver = coap_api_protocol_driver.CoapApiProtocolDriver()
         self.iot_node = iot_system_dsl.IotNodeDsl(self.protocol_driver)
         self.iot_system = iot_system_dsl.IotSystemDsl(self.protocol_driver, self.iot_node)
