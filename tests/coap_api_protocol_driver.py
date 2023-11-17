@@ -7,14 +7,17 @@ logger = logging.getLogger(__name__)
 
 
 class CoapApiProtocolDriver(Context, Message):
-    async def __init__(self):
-        self.protocol = await Context.create_client_context()
+    def __init__(self):
+        self.loop = asyncio.get_event_loop()
+        self.client = self.loop.run_until_complete(Context.create_client_context())
 
-    async def show_measurement_sample(self, measurement_type):
+    def show_measurement_sample(self, measurement_type):
         request = Message(code=GET, uri="coap://datacollector:5683/" + measurement_type)
+        return self.loop.run_until_complete(self.fetch_resource(request))
 
+    async def fetch_resource(self, request):
         try:
-            response = await self.protocol.request(request).response
+            response = await self.client.request(request).response
         except Exception as e:
             logger.error(f"Failed to fetch resource: {e} with response code {response.code}")
     
