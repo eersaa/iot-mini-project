@@ -12,3 +12,6 @@ class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
 
     def confirm_showed_sample(self, sample, value):
         self.assertEqual(sample == value)
+
+if __name__ == '__main__':
+    unittest.main()
