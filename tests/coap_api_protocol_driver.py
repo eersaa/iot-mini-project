@@ -12,14 +12,14 @@ class CoapApiProtocolDriver(Context, Message):
         self.client = self.loop.run_until_complete(Context.create_client_context())
 
     def show_measurement_sample(self, measurement_type):
-        request = Message(code=GET, uri="coap://datacollector:5683/" + measurement_type)
+        request = Message(code=GET, uri="coap://localhost:5683/" + measurement_type)
         return self.loop.run_until_complete(self.fetch_resource(request))
 
     async def fetch_resource(self, request):
         try:
             response = await self.client.request(request).response
         except Exception as e:
-            logger.error(f"Failed to fetch resource: {e} with response code {response.code}")
+            logger.error(f"Failed to fetch resource: {e}")
     
     def send_measurement_sample(self, measurement_type, measurement_value):
         pass
