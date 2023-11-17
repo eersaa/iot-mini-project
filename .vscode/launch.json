@@ -5,20 +5,11 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "pytest all",
+            "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "module": "pytest",
-            "justMyCode": true
-        },
-        {
-            "name": "pytest current file",
-            "type": "python",
-            "request": "launch",
-            "module": "pytest",
-            "args": [
-                "${file}"
-            ],
+            "program": "${file}",
+            "console": "integratedTerminal",
             "justMyCode": true
         }
     ]
