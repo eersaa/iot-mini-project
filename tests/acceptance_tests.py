@@ -13,7 +13,7 @@ class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
         self.confirm_showed_sample(self.iot_system.show_measurement_sample(type="temperature"), value="25.0")
 
     def confirm_showed_sample(self, sample, value):
-        self.assertEqual(sample == value)
+        self.assertEqual(sample, value)
 
 if __name__ == '__main__':
     acceptance_tests = unittest.TestLoader().discover('tests', pattern='acceptance_tests*')
