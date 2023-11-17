@@ -1,6 +1,7 @@
 import asyncio
 import logging
 from aiocoap import *
+from aiocoap.numbers import GET, PUT
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
