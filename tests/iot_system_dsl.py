@@ -1,7 +1,8 @@
 
 class IotSystemDsl():
-    def __init__(self, protocol_driver):
+    def __init__(self, protocol_driver, iot_node):
         self.driver = protocol_driver
+        self.iot_node = iot_node
     
     def show_measurement_sample(self, **parameters):
         measurement_type = parameters["type"]
