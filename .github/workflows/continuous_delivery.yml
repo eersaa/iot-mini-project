@@ -1,0 +1,22 @@
+name: continuous delivery
+
+on: [push]
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+# Build application images
+# Run commit tests
+
+# Build acceptance tests image
+    - name: Build Docker image
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest ./tests
+
+# Deploy application
+# Run acceptance tests
+    - name: Run acceptance tests
+      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest
