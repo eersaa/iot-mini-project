@@ -1,7 +1,10 @@
 import asyncio
 import logging
+
 from aiocoap import *
 from aiocoap.numbers import GET, PUT
+
+from util import *
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -17,7 +20,9 @@ class CoapApiProtocolDriver(Context, Message):
         self.client = self.loop.run_until_complete(Context.create_client_context())
 
     def show_measurement_sample(self, measurement_type):
-        request = Message(code=GET, uri="coap://localhost:5683/" + measurement_type, transport_tuning=TransportTuner())
+        request = Message(code=GET,
+                        uri=create_coap_uri(resource_path=measurement_type),
+                        transport_tuning=TransportTuner())
         return self.loop.run_until_complete(self.fetch_resource(request))
 
     async def fetch_resource(self, request):
