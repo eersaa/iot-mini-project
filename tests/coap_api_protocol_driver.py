@@ -23,13 +23,19 @@ class CoapApiProtocolDriver(Context, Message):
         request = Message(code=GET,
                         uri=create_coap_uri(resource_path=measurement_type),
                         transport_tuning=TransportTuner())
-        return self.loop.run_until_complete(self.fetch_resource(request))
+        return self.loop.run_until_complete(self.request_resource(request))
 
-    async def fetch_resource(self, request):
+    async def request_resource(self, request):
         try:
             response = await self.client.request(request).response
+            return response.payload.decode("utf-8")
         except Exception as e:
-            logger.error(f"Failed to fetch resource: {e}")
+            logger.error(f"Failed to request resource: {e}")
+        
     
     def send_measurement_sample(self, measurement_type, measurement_value):
-        pass
+        request = Message(code=PUT,
+                        uri=create_coap_uri(resource_path=measurement_type),
+                        payload=str.encode(measurement_value),
+                        transport_tuning=TransportTuner())
+        self.loop.run_until_complete(self.request_resource(request))
