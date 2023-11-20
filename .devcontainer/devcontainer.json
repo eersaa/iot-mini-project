@@ -9,6 +9,9 @@
 		"dockerfile": "../Dockerfile",
 		"target": "development"		
 	},
+	"containerEnv": {
+		"PYTHONPATH": "/workspaces/iot-mini-project"
+	},
 	"customizations": {
 		"vscode": {
 			"extensions": [
