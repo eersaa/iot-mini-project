@@ -1,4 +1,5 @@
 import unittest
+import sys
 import iot_system_dsl
 import coap_api_protocol_driver
 
@@ -15,6 +16,10 @@ class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
     def confirm_showed_sample(self, sample, value):
         self.assertEqual(sample, value)
 
+def at_least_one_test_failed(test_result):
+    return not test_result.wasSuccessful()
+
 if __name__ == '__main__':
     acceptance_tests = unittest.TestLoader().discover('.', pattern='acceptance_tests*')
-    unittest.TextTestRunner(verbosity=2).run(acceptance_tests)
+    test_result = unittest.TextTestRunner(verbosity=2).run(acceptance_tests)
+    sys.exit(at_least_one_test_failed(test_result))
