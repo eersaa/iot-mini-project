@@ -18,7 +18,9 @@ jobs:
 
 # Build acceptance tests image
     - name: Build acceptance tests Docker image
-      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest ./tests
+      run: |
+            docker build --target acceptance-tests \
+                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest .
 
 # Deploy application
 # Run acceptance tests
