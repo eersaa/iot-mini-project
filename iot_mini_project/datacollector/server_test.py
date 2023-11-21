@@ -8,18 +8,18 @@ class FakeResource:
         self.name = name
 
 class ServerTests(unittest.TestCase):
+    def setUp(self):
+        self.interface = Mock()
+        self.server = Server(self.interface)
+
     def test_should_add_resource_to_interface(self):
-        interface = Mock()
         fake_resource = FakeResource("new-resource")
-        server = Server(interface)
-        server.add_resource_to_interface(fake_resource)
-        interface.add_resource.assert_called_with(fake_resource)
+        self.server.add_resource_to_interface(fake_resource)
+        self.interface.add_resource.assert_called_with(fake_resource)
 
     def test_should_run_interface_as_server(self):
-        interface = Mock()
-        server = Server(interface)
-        server.run()
-        interface.run_as.assert_called_with("server")
+        self.server.run()
+        self.interface.run_as.assert_called_with("server")
         
 if __name__ == '__main__':
     unittest.main()
