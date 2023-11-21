@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.12-slim as test-env
 LABEL version="0.1"
 WORKDIR /tests
 COPY *.py .
