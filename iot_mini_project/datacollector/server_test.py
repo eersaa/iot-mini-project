@@ -15,7 +15,12 @@ class ServerTests(unittest.TestCase):
         server.add_resource_to_interface(fake_resource)
         interface.add_resource.assert_called_with(fake_resource)
 
-
+    def test_should_run_interface_as_server(self):
+        interface = Mock()
+        server = Server(interface)
+        server.run()
+        interface.run_as.assert_called_with("server")
+        
 if __name__ == '__main__':
     unittest.main()
 
