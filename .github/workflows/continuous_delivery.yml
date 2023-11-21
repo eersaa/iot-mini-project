@@ -11,7 +11,10 @@ jobs:
       uses: actions/checkout@v2
 # Build application images
     - name: Build image for datacollector unit tests
-      run: docker build --target test-env -t ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest ./iot_mini_project/datacollector
+      run: | 
+            docker build --target test-env \
+                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest \
+                        ./iot_mini_project/datacollector
 # Run commit tests
     - name: Run datacollector unit tests
       run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest
@@ -20,7 +23,8 @@ jobs:
     - name: Build acceptance tests Docker image
       run: |
             docker build --target acceptance-tests \
-                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest .
+                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest \
+                        .
 
 # Deploy application
 # Run acceptance tests
