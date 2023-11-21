@@ -10,10 +10,14 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 # Build application images
+    - name: Build image for datacollector unit tests
+      run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest ./iot_mini_project/datacollector
 # Run commit tests
+    - name: Run datacollector unit tests
+      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest
 
 # Build acceptance tests image
-    - name: Build Docker image
+    - name: Build acceptance tests Docker image
       run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest ./tests
 
 # Deploy application
