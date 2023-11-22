@@ -1,4 +1,5 @@
 import logging
+import asyncio
 
 from aiocoap.resource import Resource as AiocoapResource
 from aiocoap.resource import WKCResource as AiocoapWKCResource
@@ -42,3 +43,4 @@ class InterfaceAdapter(AiocoapSite, AiocoapWKCResource):
     async def run_as(self, role):
         if role == "server":
             await AiocoapContext.create_server_context(self.site_root)
+        return await asyncio.get_event_loop().create_future()
