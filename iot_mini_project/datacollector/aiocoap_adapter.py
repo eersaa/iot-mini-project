@@ -5,6 +5,7 @@ from aiocoap.resource import WKCResource as AiocoapWKCResource
 from aiocoap.resource import Site as AiocoapSite
 from aiocoap.message import Message as AiocoapMessage
 from aiocoap.numbers import CHANGED
+from aiocoap import Context as AiocoapContext
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -38,5 +39,6 @@ class InterfaceAdapter(AiocoapSite, AiocoapWKCResource):
     def add_resource(self, resource):
         self.site_root.add_resource(resource.path(), resource)
 
-    def run_as(self, role):
-        pass
+    async def run_as(self, role):
+        if role == "server":
+            await AiocoapContext.create_server_context(self.site_root)
