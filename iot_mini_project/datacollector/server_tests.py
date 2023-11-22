@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import Mock
+from unittest.mock import Mock, AsyncMock
 
 from server import Server
 
@@ -17,8 +17,13 @@ class ServerTests(unittest.TestCase):
         self.server.add_resource_to_interface(fake_resource)
         self.interface.add_resource.assert_called_with(fake_resource)
 
-    def test_should_run_interface_as_server(self):
-        self.server.run()
+class ServerAsyncTests(unittest.IsolatedAsyncioTestCase):
+    def setUp(self):
+        self.interface = AsyncMock()
+        self.server = Server(self.interface)
+
+    async def test_should_run_interface_as_server(self):
+        await self.server.run()
         self.interface.run_as.assert_called_with("server")
         
 if __name__ == '__main__':
