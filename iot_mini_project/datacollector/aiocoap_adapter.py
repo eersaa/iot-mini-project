@@ -1,6 +1,8 @@
 import logging
 
 from aiocoap.resource import Resource as AiocoapResource
+from aiocoap.resource import WKCResource as AiocoapWKCResource
+from aiocoap.resource import Site as AiocoapSite
 from aiocoap.message import Message as AiocoapMessage
 from aiocoap.numbers import CHANGED
 
@@ -24,11 +26,17 @@ class InterfaceResource(AiocoapResource, AiocoapMessage):
         logger.info(f"Resource {self.resource_name} updated with value {self.content}")
         return AiocoapMessage(code=CHANGED, payload=self.content.encode("utf-8"))
 
-class InterfaceAdapter:
-    pass
+class InterfaceAdapter(AiocoapSite, AiocoapWKCResource):
+    def __init__(self):
+        self.site_root = AiocoapSite()
+        self._add_well_known_core_resource()
+
+    def _add_well_known_core_resource(self):
+        self.site_root.add_resource([".well-known", "core"],
+                                    AiocoapWKCResource(self.site_root.get_resources_as_linkheader))
 
     def add_resource(self, resource):
-        pass
+        self.site_root.add_resource(resource.path(), resource)
 
     def run_as(self, role):
         pass
