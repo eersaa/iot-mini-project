@@ -6,5 +6,5 @@ class Server:
     def add_resource_to_interface(self, resource):
         self.interface.add_resource(resource)
 
-    def run(self):
-        self.interface.run_as("server")
+    async def run(self):
+        return await self.interface.run_as("server")
