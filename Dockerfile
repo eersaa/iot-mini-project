@@ -31,8 +31,9 @@ FROM python:3.12 as acceptance-tests
 RUN pip install -U aiocoap[all]
 
 WORKDIR /src
-ENV PYTHONPATH=/src
+ENV PYTHONPATH=/src/cloud
 
-COPY ./tests/*.py ./tests/
+COPY ./cloud/tests/*.py ./cloud/tests/
 COPY ./cloud/util/util.py ./cloud/util/util.py
-CMD [ "python", "./tests/acceptance_tests.py" ]
+WORKDIR /src/cloud/tests
+CMD [ "python", "acceptance_tests.py" ]
