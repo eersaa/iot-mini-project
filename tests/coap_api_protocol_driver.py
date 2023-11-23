@@ -4,7 +4,7 @@ import logging
 from aiocoap import *
 from aiocoap.numbers import GET, PUT
 
-from iot_mini_project.util.util import create_coap_uri
+from cloud.util.util import create_coap_uri
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

@@ -34,5 +34,5 @@ WORKDIR /src
 ENV PYTHONPATH=/src
 
 COPY ./tests/*.py ./tests/
-COPY ./iot_mini_project/util/util.py ./iot_mini_project/util/util.py
+COPY ./cloud/util/util.py ./cloud/util/util.py
 CMD [ "python", "./tests/acceptance_tests.py" ]
