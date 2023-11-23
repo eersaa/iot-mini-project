@@ -21,7 +21,7 @@ class CoapApiProtocolDriver(Context, Message):
 
     def show_measurement_sample(self, measurement_type):
         request = Message(code=GET,
-                        uri=create_coap_uri(resource_path=measurement_type),
+                        uri=create_coap_uri(resource_path=measurement_type, address="127.0.0.1"),
                         transport_tuning=TransportTuner())
         return self.loop.run_until_complete(self.request_resource(request))
 
@@ -35,7 +35,7 @@ class CoapApiProtocolDriver(Context, Message):
     
     def send_measurement_sample(self, measurement_type, measurement_value):
         request = Message(code=PUT,
-                        uri=create_coap_uri(resource_path=measurement_type),
+                        uri=create_coap_uri(resource_path=measurement_type, address="127.0.0.1"),
                         payload=str.encode(measurement_value),
                         transport_tuning=TransportTuner())
         self.loop.run_until_complete(self.request_resource(request))
