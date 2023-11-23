@@ -9,6 +9,8 @@ from iot_mini_project.util.util import create_coap_uri
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+HOST_ADDRESS = "127.0.0.1"
+
 class TransportTuner(TransportTuning):
     def __init__(self):
         super().__init__()
@@ -21,7 +23,7 @@ class CoapApiProtocolDriver(Context, Message):
 
     def show_measurement_sample(self, measurement_type):
         request = Message(code=GET,
-                        uri=create_coap_uri(resource_path=measurement_type, address="127.0.0.1"),
+                        uri=create_coap_uri(resource_path=measurement_type, address=HOST_ADDRESS),
                         transport_tuning=TransportTuner())
         return self.loop.run_until_complete(self.request_resource(request))
 
@@ -35,7 +37,7 @@ class CoapApiProtocolDriver(Context, Message):
     
     def send_measurement_sample(self, measurement_type, measurement_value):
         request = Message(code=PUT,
-                        uri=create_coap_uri(resource_path=measurement_type, address="127.0.0.1"),
+                        uri=create_coap_uri(resource_path=measurement_type, address=HOST_ADDRESS),
                         payload=str.encode(measurement_value),
                         transport_tuning=TransportTuner())
         self.loop.run_until_complete(self.request_resource(request))
