@@ -1,6 +1,6 @@
 import unittest
 
-from aiocoap_adapter import InterfaceResource
+from datacollector.aiocoap_adapter import InterfaceResource
 
 class InterfaceResourceTests(unittest.TestCase):
     def test_should_return_resource_path_as_list(self):
