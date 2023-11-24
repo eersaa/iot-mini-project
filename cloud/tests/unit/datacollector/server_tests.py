@@ -1,7 +1,7 @@
 import unittest
 from unittest.mock import Mock, AsyncMock
 
-from server import Server
+from datacollector.server import Server
 
 class FakeResource:
     def __init__(self, name):
