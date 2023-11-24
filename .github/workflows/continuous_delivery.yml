@@ -10,12 +10,29 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: Build image for all unit tests
-      run: | 
-            docker build --file ${{ github.workspace }}/Dockerfile \
-                        --target unit-tests \
-                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest \
-                        ${{ github.workspace }}/cloud
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and export image for all unit tests
+      uses: docker/build-push-action@v5
+      with:
+        context: ${{ github.workspace }}/cloud
+        file: ${{ github.workspace }}/Dockerfile
+        target: unit-tests
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+        outputs: type=docker,dest=/tmp/unit-tests.tar
+
+    - name: Upload unit-tests image to artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: unit-tests
+        path: /tmp/unit-tests.tar
+
+      # run: | 
+      #       docker build --file ${{ github.workspace }}/Dockerfile \
+      #                   --target unit-tests \
+      #                   --tag ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest \
+      #                   ${{ github.workspace }}/cloud
 
   build_acceptance_tests:
     runs-on: ubuntu-22.04
@@ -36,8 +53,21 @@ jobs:
     needs: build_unit_tests
 
     steps:
-    - name: Run all unit tests
-      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+      - name: Download unit-tests image from artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: unit-tests
+          path: /tmp
+
+      - name: Load unit-tests image
+        run: docker load --input /tmp/unit-tests.tar
+
+      - name: Run all unit tests
+        run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+
+    # steps:
+    # - name: Run all unit tests
+    #   run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
   run_acceptance_tests:
     runs-on: ubuntu-22.04
