@@ -10,7 +10,7 @@
 		"target": "development"		
 	},
 	"containerEnv": {
-		"PYTHONPATH": "/workspaces/iot-mini-project"
+		"PYTHONPATH": "/workspaces/iot-mini-project/cloud"
 	},
 	"customizations": {
 		"vscode": {
