@@ -1,7 +1,7 @@
 import unittest
 import sys
-import iot_system_dsl
-import coap_api_protocol_driver
+from tests.acceptance import iot_system_dsl
+from tests.acceptance import coap_api_protocol_driver
 
 class IotSystemCoapApiAcceptanceTest(unittest.TestCase):
     def setUp(self):
