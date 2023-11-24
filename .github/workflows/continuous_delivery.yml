@@ -3,30 +3,46 @@ name: continuous delivery
 on: [push]
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
+  build_unit_tests:
+    runs-on: ubuntu-22.04
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
-# Build application images
-    - name: Build image for datacollector unit tests
+
+    - name: Build image for all unit tests
       run: | 
-            docker build --target test-env \
-                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest \
-                        ./cloud/datacollector
-# Run commit tests
-    - name: Run datacollector unit tests
-      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/datacollector-test:latest
+            docker build --file ${{ github.workspace }}/Dockerfile \
+                        --target unit-tests \
+                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest \
+                        ${{ github.workspace }}/cloud
 
-# Build acceptance tests image
-    - name: Build acceptance tests Docker image
-      run: |
-            docker build --target acceptance-tests \
-                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest \
-                        .
+  build_acceptance_tests:
+    runs-on: ubuntu-22.04
 
-# Deploy application
-# Run acceptance tests
-    - name: Run acceptance tests
-      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-test:latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Build image for all acceptance tests
+      run: | 
+            docker build --file ${{ github.workspace }}/Dockerfile \
+                        --target acceptance-tests \
+                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest \
+                        ${{ github.workspace }}/cloud
+
+  run_commit_tests:
+    runs-on: ubuntu-22.04
+    needs: build_unit_tests
+
+    steps:
+    - name: Run all unit tests
+      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+
+  run_acceptance_tests:
+    runs-on: ubuntu-22.04
+    needs: run_commit_tests
+
+    steps:
+    - name: Run all unit tests
+      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest

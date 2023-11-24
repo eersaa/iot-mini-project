@@ -27,13 +27,19 @@ WORKDIR /app
 COPY *.py .
 CMD [ "python" ]
 
-FROM python:3.12 as acceptance-tests
+FROM python:3.12 as base-tests
 RUN pip install -U aiocoap[all]
 
-WORKDIR /src
-ENV PYTHONPATH=/src/cloud
+WORKDIR /cloud
+ENV PYTHONPATH=/cloud
+COPY tests tests
+COPY util util
 
-COPY ./cloud/tests/*.py ./cloud/tests/
-COPY ./cloud/util/util.py ./cloud/util/util.py
-WORKDIR /src/cloud/tests
-CMD [ "python", "acceptance_tests.py" ]
+FROM base-tests as acceptance-tests
+
+CMD [ "python", "-m", "tests.acceptance" ]
+
+FROM base-tests as unit-tests
+
+COPY datacollector datacollector
+CMD [ "python", "-m", "tests.unit" ]
