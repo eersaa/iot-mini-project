@@ -1,11 +1,7 @@
 import unittest
 import sys
 
-def at_least_one_test_failed(test_result):
-    return not test_result.wasSuccessful()
-
-def no_tests_run(test_result):
-    return test_result.testsRun == 0
+from tests.util.unittest_helpers import at_least_one_test_failed, no_tests_run
 
 if __name__ == '__main__':
     tests = unittest.TestLoader().discover('tests.unit', pattern='*_tests*')
