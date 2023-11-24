@@ -41,7 +41,7 @@ jobs:
 
   run_acceptance_tests:
     runs-on: ubuntu-22.04
-    needs: run_commit_tests
+    needs: [run_commit_tests, build_acceptance_tests]
 
     steps:
     - name: Run all unit tests
