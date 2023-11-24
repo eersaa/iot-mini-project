@@ -1,6 +1,6 @@
 import unittest
 
-from util import create_coap_uri
+from util.util import create_coap_uri
 
 class CoapUriCreatorTest(unittest.TestCase):
     def test_should_default_to_localhost_and_well_known_core(self):
