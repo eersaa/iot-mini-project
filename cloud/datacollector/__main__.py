@@ -1,6 +1,6 @@
 import asyncio
-from server import Server
-from aiocoap_adapter import InterfaceResource, InterfaceAdapter
+from datacollector.server import Server
+from datacollector.aiocoap_adapter import InterfaceResource, InterfaceAdapter
 
 
 async def main():
