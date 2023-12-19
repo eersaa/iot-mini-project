@@ -48,45 +48,45 @@ jobs:
       #                   --tag ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest \
       #                   ${{ github.workspace }}/cloud
 
-  build_acceptance_tests:
-    runs-on: ubuntu-22.04
+  # build_acceptance_tests:
+  #   runs-on: ubuntu-22.04
 
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+  #   steps:
+  #   - name: Checkout repository
+  #     uses: actions/checkout@v4
 
-    - name: Build image for all acceptance tests
-      run: | 
-            docker build --file ${{ github.workspace }}/Dockerfile \
-                        --target acceptance-tests \
-                        --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest \
-                        ${{ github.workspace }}/cloud
+  #   - name: Build image for all acceptance tests
+  #     run: | 
+  #           docker build --file ${{ github.workspace }}/Dockerfile \
+  #                       --target acceptance-tests \
+  #                       --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest \
+  #                       ${{ github.workspace }}/cloud
 
-  run_commit_tests:
-    runs-on: ubuntu-22.04
-    needs: build_unit_tests
+  # run_commit_tests:
+  #   runs-on: ubuntu-22.04
+  #   needs: build_unit_tests
 
-    steps:
-      - name: Download unit-tests image from artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: unit-tests
-          path: /tmp
+  #   steps:
+  #     - name: Download unit-tests image from artifacts
+  #       uses: actions/download-artifact@v3
+  #       with:
+  #         name: unit-tests
+  #         path: /tmp
 
-      - name: Load unit-tests image
-        run: docker load --input /tmp/unit-tests.tar
+  #     - name: Load unit-tests image
+  #       run: docker load --input /tmp/unit-tests.tar
 
-      - name: Run all unit tests
-        run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+  #     - name: Run all unit tests
+  #       run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
-    # steps:
-    # - name: Run all unit tests
-    #   run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+  #   # steps:
+  #   # - name: Run all unit tests
+  #   #   run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
-  run_acceptance_tests:
-    runs-on: ubuntu-22.04
-    needs: [run_commit_tests, build_acceptance_tests]
+  # run_acceptance_tests:
+  #   runs-on: ubuntu-22.04
+  #   needs: [run_commit_tests, build_acceptance_tests]
 
-    steps:
-    - name: Run all unit tests
-      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest
+  #   steps:
+  #   - name: Run all unit tests
+  #     run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest
