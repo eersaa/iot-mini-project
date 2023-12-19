@@ -39,8 +39,8 @@ jobs:
         cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:buildcache,mode=max
 
-    - name: Run all unit tests
-      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+    # - name: Run all unit tests
+    #   run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
     # - name: Upload unit-tests image to artifacts
     #   uses: actions/upload-artifact@v3
@@ -68,11 +68,11 @@ jobs:
   #                       --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest \
   #                       ${{ github.workspace }}/cloud
 
-  # run_commit_tests:
-  #   runs-on: ubuntu-22.04
-  #   needs: build_unit_tests
+  run_commit_tests:
+    runs-on: ubuntu-22.04
+    needs: build_unit_tests
 
-  #   steps:
+    steps:
   #     - name: Download unit-tests image from artifacts
   #       uses: actions/download-artifact@v3
   #       with:
@@ -82,8 +82,8 @@ jobs:
   #     - name: Load unit-tests image
   #       run: docker load --input /tmp/unit-tests.tar
 
-  #     - name: Run all unit tests
-  #       run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
+      - name: Run all unit tests
+        run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
   #   # steps:
   #   # - name: Run all unit tests
