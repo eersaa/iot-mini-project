@@ -42,13 +42,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
-  #   - name: Build image for all acceptance tests
-  #     run: | 
-  #           docker build --file ${{ github.workspace }}/Dockerfile \
-  #                       --target acceptance-tests \
-  #                       --tag ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest \
-  #                       ${{ github.workspace }}/cloud
-
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
@@ -75,21 +68,9 @@ jobs:
     needs: build_unit_tests
 
     steps:
-  #     - name: Download unit-tests image from artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: unit-tests
-  #         path: /tmp
-
-  #     - name: Load unit-tests image
-  #       run: docker load --input /tmp/unit-tests.tar
-
       - name: Run all unit tests
         run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-unit-tests
 
-  #   # steps:
-  #   # - name: Run all unit tests
-  #   #   run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
   run_acceptance_tests:
     runs-on: ubuntu-22.04
