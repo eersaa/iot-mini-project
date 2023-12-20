@@ -91,10 +91,10 @@ jobs:
   #   # - name: Run all unit tests
   #   #   run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/unit-tests:latest
 
-  # run_acceptance_tests:
-  #   runs-on: ubuntu-22.04
-  #   needs: [run_commit_tests, build_acceptance_tests]
+  run_acceptance_tests:
+    runs-on: ubuntu-22.04
+    needs: [run_commit_tests, build_acceptance_tests]
 
-  #   steps:
-  #   - name: Run all unit tests
-  #     run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/acceptance-tests:latest
+    steps:
+    - name: Run all acceptance tests
+      run: docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-acceptance-tests
