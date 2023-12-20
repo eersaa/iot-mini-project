@@ -30,7 +30,6 @@ jobs:
         file: ${{ github.workspace }}/Dockerfile
         target: unit-tests
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-unit-tests
-        # outputs: type=docker,dest=/tmp/unit-tests.tar
         cache-from: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-unit-tests-buildcache
         cache-to: type=registry,ref=${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-unit-tests-buildcache,mode=max
 
