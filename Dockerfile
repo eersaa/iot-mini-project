@@ -45,3 +45,8 @@ FROM base-tests as unit-tests
 
 COPY datacollector datacollector
 CMD [ "python", "-m", "tests.unit" ]
+
+FROM base as datacollector-production
+EXPOSE 5683
+COPY datacollector datacollector
+CMD [ "python", "-m", "datacollector" ]
