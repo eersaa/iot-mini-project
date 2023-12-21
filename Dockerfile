@@ -27,11 +27,13 @@ WORKDIR /app
 COPY *.py .
 CMD [ "python" ]
 
-FROM python:3.12 as base-tests
+FROM python:3.12 as base
 RUN pip install -U aiocoap[all]
 
 WORKDIR /cloud
 ENV PYTHONPATH=/cloud
+
+FROM base as base-tests
 COPY tests tests
 COPY util util
 
