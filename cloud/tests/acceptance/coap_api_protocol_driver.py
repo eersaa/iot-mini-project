@@ -9,7 +9,7 @@ from util.util import create_coap_uri
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-HOST_ADDRESS = "localhost" #"127.0.0.1" never stops with this address
+HOST_ADDRESS = "datacollector" #"127.0.0.1" never stops with this address
 
 class TransportTuner(TransportTuning):
     def __init__(self):
