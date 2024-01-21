@@ -105,5 +105,8 @@ jobs:
     needs: [run_commit_tests, build_acceptance_tests]
 
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
     - name: Run all acceptance tests
-      run: docker run --pull always --rm ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-acceptance-tests
+      run: docker compose -f compose.yaml up --exit-code-from acceptance-tests
