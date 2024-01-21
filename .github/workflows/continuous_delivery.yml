@@ -103,10 +103,13 @@ jobs:
   run_acceptance_tests:
     runs-on: ubuntu-22.04
     needs: [run_commit_tests, build_acceptance_tests]
+    timeout-minutes: 1 # This makes sure that test job exits because there is issue with test execution and error handling.
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
 
     - name: Run all acceptance tests
-      run: docker compose -f compose.yaml up --exit-code-from acceptance-tests
+      run: |
+        docker compose -f compose.yaml pull
+        docker compose -f compose.yaml up --exit-code-from acceptance-tests
