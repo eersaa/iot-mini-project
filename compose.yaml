@@ -2,7 +2,7 @@ services:
   datacollector-rc:
     image: eersaa/iot-mini-project:rc-datacollector
     ports: 
-      - 5683
+      - 8683:8683/udp
 
   acceptance-tests:
     image: eersaa/iot-mini-project:latest-acceptance-tests
