@@ -109,7 +109,13 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Stop and remove test environment if any
+      run: docker compose -f compose.yaml down
+
     - name: Run all acceptance tests
       run: |
         docker compose -f compose.yaml pull
         docker compose -f compose.yaml up --exit-code-from acceptance-tests
+
+    - name: Stop and remove test environment
+      run: docker compose -f compose.yaml down
