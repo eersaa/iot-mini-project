@@ -6,11 +6,11 @@ from aiocoap.numbers import GET, PUT
 
 from util.util import create_coap_uri
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 HOST_ADDRESS = "datacollector-rc" #"127.0.0.1" never stops with this address
-HOST_PORT = 8683
+HOST_PORT = 5683
 
 class TransportTuner(TransportTuning):
     def __init__(self):
@@ -29,11 +29,12 @@ class CoapApiProtocolDriver(Context, Message):
         return self.loop.run_until_complete(self.request_resource(request))
 
     async def request_resource(self, request):
-        try:
-            response = await self.client.request(request).response
-            return response.payload.decode("utf-8")
-        except Exception as e:
-            logger.error(f"Failed to request resource: {e}")
+        # try:
+        response = await self.client.request(request).response
+        return response.payload.decode("utf-8")
+        # except Exception as e:
+            # raise Exception(f"Failed to request resource: {e}")
+            # logger.error(f"Failed to request resource: {e}")
         
     
     def send_measurement_sample(self, measurement_type, measurement_value):
