@@ -120,3 +120,21 @@ jobs:
 
     - name: Stop and remove test environment
       run: docker compose -f compose.yaml down
+
+  create_datacollector_release:
+    runs-on: ubuntu-22.04
+    needs: run_acceptance_tests
+
+    steps:  
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Create release
+        run: |
+          docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:rc-datacollector
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:rc-datacollector ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:${{ github.sha }}-datacollector
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:${{ github.sha }}-datacollector ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}:latest-datacollector
+          docker push -a ${{ secrets.DOCKERHUB_USERNAME }}/${{env.REPOSITORY_NAME}}
