@@ -102,8 +102,9 @@ jobs:
 
   run_acceptance_tests:
     runs-on: ubuntu-22.04
-    needs: [run_commit_tests, build_acceptance_tests]
-    timeout-minutes: 1 # This makes sure that test job exits because there is issue with test execution and error handling.
+    needs: [run_commit_tests, 
+            build_acceptance_tests, 
+            build_datacollector_rc]
 
     steps:
     - name: Checkout code
