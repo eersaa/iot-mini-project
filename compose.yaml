@@ -2,7 +2,7 @@ services:
   datacollector-rc:
     image: eersaa/iot-mini-project:rc-datacollector
     ports: 
-      - 8683:8683/udp
+      - 5683:5683/udp
     networks:
       - ipv6-network
 
